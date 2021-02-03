@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Checkbox from "@material-ui/core/Checkbox";
 import Fade from "@material-ui/core/Fade";
-import { strings } from "./utils";
+import { strings, allNotes, stringNoteOffsets } from "./constants";
 
 const Answer = styled.div`
   color: skyblue;
@@ -12,23 +12,6 @@ const Answer = styled.div`
 const PromptContainer = styled.div`
   cursor: pointer;
 `;
-
-const allNotes = [
-  "A",
-  "A#/Bb",
-  "B",
-  "C",
-  "C#/Db",
-  "D",
-  "D#/Eb",
-  "E",
-  "F",
-  "F#/Gb",
-  "G",
-  "G#/Ab"
-];
-
-const stringNoteOffsets = [7, 0, 5, 10, 2, 7];
 
 function Prompt({ index, fret, stringIndex }) {
   const [checked, setChecked] = React.useState(false);

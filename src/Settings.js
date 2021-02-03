@@ -1,6 +1,5 @@
 import React from "react";
 import Input from "@material-ui/core/Input";
-
 import Slider from "@material-ui/core/Slider";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
