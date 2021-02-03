@@ -1,11 +1,13 @@
 import React from "react";
+import Input from "@material-ui/core/Input";
 import _ from "lodash";
 import styled from "styled-components";
 import { getRandomInt } from "./utils";
 import Prompt from "./Prompt";
+import Settings from "./Settings";
 import { strings } from "./utils";
 
-const NUM_OF_PROMPTS = 25;
+const DEFAULT_NUM_OF_PROMPTS = 25;
 
 const PromptsContainer = styled.div`
   display: flex;
@@ -15,7 +17,11 @@ const PromptsContainer = styled.div`
 `;
 
 function Prompts() {
-  const prompts = _.times(NUM_OF_PROMPTS, (i) => {
+  const [numberOfPrompts, setNumberOfPrompts] = React.useState(
+    DEFAULT_NUM_OF_PROMPTS
+  );
+
+  const prompts = _.times(numberOfPrompts, (i) => {
     const stringIndex = getRandomInt(0, strings.length - 1);
     return (
       <Prompt
@@ -27,7 +33,15 @@ function Prompts() {
     );
   });
 
-  return <PromptsContainer>{prompts}</PromptsContainer>;
+  return (
+    <>
+      <Settings
+        defaultValue={DEFAULT_NUM_OF_PROMPTS}
+        updateValues={setNumberOfPrompts}
+      />
+      <PromptsContainer>{prompts}</PromptsContainer>
+    </>
+  );
 }
 
 export default Prompts;
