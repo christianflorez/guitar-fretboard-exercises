@@ -2,7 +2,12 @@ import React from "react";
 import _ from "lodash";
 import styled from "styled-components";
 import { getRandomInt } from "./utils";
-import { strings, defaultNumberOfPrompts } from "./constants";
+import {
+  strings,
+  defaultNumberOfPrompts,
+  defaultMinFret,
+  defaultMaxFret,
+} from "./constants";
 import Prompt from "./Prompt";
 import Settings from "./Settings";
 
@@ -18,25 +23,25 @@ function Prompts() {
     defaultNumberOfPrompts
   );
 
-  const prompts = _.times(numberOfPrompts, (i) => {
-    const stringIndex = getRandomInt(0, strings.length - 1);
-    return (
-      <Prompt
-        key={i}
-        index={i}
-        fret={getRandomInt(0, 24)}
-        stringIndex={stringIndex}
-      />
-    );
-  });
+  const [minFret, setMinFret] = React.useState(defaultMinFret);
+  const [maxFret, setMaxFret] = React.useState(defaultMaxFret);
+
+  function renderPrompts() {
+    return _.times(numberOfPrompts, (i) => {
+      const stringIndex = getRandomInt(0, strings.length - 1);
+      const fret = getRandomInt(minFret, maxFret);
+      return <Prompt key={i} index={i} fret={fret} stringIndex={stringIndex} />;
+    });
+  }
 
   return (
     <>
       <Settings
-        defaultValue={defaultNumberOfPrompts}
-        updateValues={setNumberOfPrompts}
+        updatePromptsAmount={setNumberOfPrompts}
+        updateMinFret={setMinFret}
+        updateMaxFret={setMaxFret}
       />
-      <PromptsContainer>{prompts}</PromptsContainer>
+      <PromptsContainer>{renderPrompts()}</PromptsContainer>
     </>
   );
 }
