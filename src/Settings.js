@@ -82,7 +82,8 @@ function Settings({
   const [omittedFrets, setOmittedFrets] = React.useState([]);
 
   const totalPossiblePrompts =
-    (Number(maxFret) + 1 - Number(minFret)) * strings.length;
+    (Number(maxFret) + 1 - Number(minFret)) * strings.length -
+    omittedFrets.length * strings.length;
 
   React.useEffect(() => {
     const newOmittedFrets = omittedFrets.filter(
@@ -93,9 +94,25 @@ function Settings({
     }
   }, [maxFret, minFret, omittedFrets]);
 
-  const handleMultiSelectChange = (event) => {
-    setOmittedFrets(event.target.value);
-  };
+  function adjustNumberOfPrompts(
+    minFretToUse,
+    maxFretToUse,
+    omittedFretsToUse
+  ) {
+    const newTotalPossiblePrompts =
+      (Number(maxFretToUse) + 1 - Number(minFretToUse)) * strings.length -
+      omittedFretsToUse.length * strings.length;
+    if (newTotalPossiblePrompts < totalPossiblePrompts) {
+      setNumberOfPrompts(newTotalPossiblePrompts);
+    }
+  }
+
+  function handleMultiSelectChange(event) {
+    const value = event.target.value;
+    setOmittedFrets(value);
+
+    adjustNumberOfPrompts(minFret, maxFret, value);
+  }
 
   function handleNumPromptsChange(event) {
     const value = Number(event.target.value);
@@ -108,11 +125,7 @@ function Settings({
     if (value < defaultMinFret || value >= maxFret) return;
     setMinFret(value);
 
-    const newTotalPossiblePrompts =
-      (Number(maxFret) + 1 - Number(value)) * strings.length;
-    if (newTotalPossiblePrompts < totalPossiblePrompts) {
-      setNumberOfPrompts(newTotalPossiblePrompts);
-    }
+    adjustNumberOfPrompts(value, maxFret, omittedFrets);
   }
 
   function handleMaxFretChange(event) {
@@ -120,11 +133,7 @@ function Settings({
     if (value > defaultMaxFret || value <= minFret) return;
     setMaxFret(value);
 
-    const newTotalPossiblePrompts =
-      (Number(value) + 1 - Number(minFret)) * strings.length;
-    if (newTotalPossiblePrompts < totalPossiblePrompts) {
-      setNumberOfPrompts(newTotalPossiblePrompts);
-    }
+    adjustNumberOfPrompts(minFret, value, omittedFrets);
   }
 
   function handleChangeNumPromptsSlider(event, newValue) {
