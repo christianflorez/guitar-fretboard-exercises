@@ -81,7 +81,7 @@ function Settings({
   const [maxFret, setMaxFret] = React.useState(defaultMaxFret);
   const [omittedFrets, setOmittedFrets] = React.useState([]);
 
-  const totalPossiblePrompts =
+  const currentTotalPossiblePrompts =
     (Number(maxFret) + 1 - Number(minFret)) * strings.length -
     omittedFrets.length * strings.length;
 
@@ -102,14 +102,15 @@ function Settings({
     const newTotalPossiblePrompts =
       (Number(maxFretToUse) + 1 - Number(minFretToUse)) * strings.length -
       omittedFretsToUse.length * strings.length;
-    if (newTotalPossiblePrompts < totalPossiblePrompts) {
+
+    if (newTotalPossiblePrompts < numberOfPrompts) {
       setNumberOfPrompts(newTotalPossiblePrompts);
     }
   }
 
   function handleNumPromptsChange(event) {
     const value = Number(event.target.value);
-    if (value > totalPossiblePrompts) return;
+    if (value > currentTotalPossiblePrompts) return;
     setNumberOfPrompts(Number(event.target.value));
   }
 
@@ -175,7 +176,7 @@ function Settings({
                 onChange={handleChangeNumPromptsSlider}
                 aria-labelledby="continuous-slider"
                 min={1}
-                max={totalPossiblePrompts}
+                max={currentTotalPossiblePrompts}
                 defaultValue={defaultNumberOfPrompts}
               />
             </InputsContainer>
