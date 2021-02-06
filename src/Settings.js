@@ -76,7 +76,6 @@ function Settings({
   const [numberOfPrompts, setNumberOfPrompts] = React.useState(
     defaultNumberOfPrompts
   );
-
   const [minFret, setMinFret] = React.useState(defaultMinFret);
   const [maxFret, setMaxFret] = React.useState(defaultMaxFret);
   const [omittedFrets, setOmittedFrets] = React.useState([]);
