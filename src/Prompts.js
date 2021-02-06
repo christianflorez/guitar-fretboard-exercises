@@ -18,6 +18,21 @@ const PromptsContainer = styled.div`
   padding-left: 7rem;
 `;
 
+function getFret(minFret, maxFret, omittedFrets) {
+  let isFretValid = false;
+  let fretToUse;
+
+  while (!isFretValid) {
+    const fret = getRandomInt(minFret, maxFret);
+    if (!omittedFrets.includes(fret)) {
+      isFretValid = true;
+      fretToUse = fret;
+    }
+  }
+
+  return fretToUse;
+}
+
 function Prompts() {
   const [numberOfPrompts, setNumberOfPrompts] = React.useState(
     defaultNumberOfPrompts
@@ -25,11 +40,12 @@ function Prompts() {
 
   const [minFret, setMinFret] = React.useState(defaultMinFret);
   const [maxFret, setMaxFret] = React.useState(defaultMaxFret);
+  const [omittedFrets, setOmittedFrets] = React.useState([]);
 
   function renderPrompts() {
     return _.times(numberOfPrompts, (i) => {
       const stringIndex = getRandomInt(0, strings.length - 1);
-      const fret = getRandomInt(minFret, maxFret);
+      const fret = getFret(minFret, maxFret, omittedFrets);
       return <Prompt key={i} index={i} fret={fret} stringIndex={stringIndex} />;
     });
   }
@@ -40,6 +56,7 @@ function Prompts() {
         updatePromptsAmount={setNumberOfPrompts}
         updateMinFret={setMinFret}
         updateMaxFret={setMaxFret}
+        updateOmittedFrets={setOmittedFrets}
       />
       <PromptsContainer>{renderPrompts()}</PromptsContainer>
     </>
