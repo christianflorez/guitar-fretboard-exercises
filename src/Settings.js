@@ -7,9 +7,7 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import ListItemText from "@material-ui/core/ListItemText";
 import Select from "@material-ui/core/Select";
-import Checkbox from "@material-ui/core/Checkbox";
 import Chip from "@material-ui/core/Chip";
 
 import styled from "styled-components";
@@ -18,6 +16,7 @@ import {
   defaultNumberOfPrompts,
   defaultMinFret,
   defaultMaxFret,
+  strings,
 } from "./constants";
 
 const SettingsContainer = styled.div`
@@ -82,6 +81,9 @@ function Settings({
   const [maxFret, setMaxFret] = React.useState(defaultMaxFret);
   const [omittedFrets, setOmittedFrets] = React.useState([]);
 
+  const totalPossiblePrompts =
+    (Number(maxFret) + 1 - Number(minFret)) * strings.length;
+
   React.useEffect(() => {
     const newOmittedFrets = omittedFrets.filter(
       (fret) => fret >= minFret && fret <= maxFret
@@ -96,19 +98,33 @@ function Settings({
   };
 
   function handleNumPromptsChange(event) {
-    setNumberOfPrompts(event.target.value);
+    const value = Number(event.target.value);
+    if (value > totalPossiblePrompts) return;
+    setNumberOfPrompts(Number(event.target.value));
   }
 
   function handleMinFretChange(event) {
     const value = Number(event.target.value);
-    if (value < defaultMinFret) return;
-    setMinFret(event.target.value);
+    if (value < defaultMinFret || value >= maxFret) return;
+    setMinFret(value);
+
+    const newTotalPossiblePrompts =
+      (Number(maxFret) + 1 - Number(value)) * strings.length;
+    if (newTotalPossiblePrompts < totalPossiblePrompts) {
+      setNumberOfPrompts(newTotalPossiblePrompts);
+    }
   }
 
   function handleMaxFretChange(event) {
     const value = Number(event.target.value);
-    if (value > defaultMaxFret) return;
-    setMaxFret(event.target.value);
+    if (value > defaultMaxFret || value <= minFret) return;
+    setMaxFret(value);
+
+    const newTotalPossiblePrompts =
+      (Number(value) + 1 - Number(minFret)) * strings.length;
+    if (newTotalPossiblePrompts < totalPossiblePrompts) {
+      setNumberOfPrompts(newTotalPossiblePrompts);
+    }
   }
 
   function handleChangeNumPromptsSlider(event, newValue) {
@@ -150,7 +166,7 @@ function Settings({
                 onChange={handleChangeNumPromptsSlider}
                 aria-labelledby="continuous-slider"
                 min={1}
-                max={200}
+                max={totalPossiblePrompts}
                 defaultValue={defaultNumberOfPrompts}
               />
             </InputsContainer>

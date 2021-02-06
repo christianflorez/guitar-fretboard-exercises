@@ -43,10 +43,34 @@ function Prompts() {
   const [omittedFrets, setOmittedFrets] = React.useState([]);
 
   function renderPrompts() {
-    return _.times(numberOfPrompts, (i) => {
-      const stringIndex = getRandomInt(0, strings.length - 1);
-      const fret = getFret(minFret, maxFret, omittedFrets);
-      return <Prompt key={i} index={i} fret={fret} stringIndex={stringIndex} />;
+    const promptRawValues = [];
+
+    _.times(numberOfPrompts, (i) => {
+      let isUnique = false;
+      while (!isUnique) {
+        const stringIndex = getRandomInt(0, strings.length - 1);
+        const fret = getFret(minFret, maxFret, omittedFrets);
+        const existingPrompt = _.find(
+          promptRawValues,
+          (prompt) => prompt.stringIndex === stringIndex && prompt.fret === fret
+        );
+
+        if (_.isNil(existingPrompt)) {
+          promptRawValues.push({ stringIndex, fret });
+          isUnique = true;
+        }
+      }
+    });
+
+    return promptRawValues.map((prompt, i) => {
+      return (
+        <Prompt
+          key={i}
+          index={i}
+          fret={prompt.fret}
+          stringIndex={prompt.stringIndex}
+        />
+      );
     });
   }
 
