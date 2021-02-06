@@ -107,17 +107,17 @@ function Settings({
     }
   }
 
+  function handleNumPromptsChange(event) {
+    const value = Number(event.target.value);
+    if (value > totalPossiblePrompts) return;
+    setNumberOfPrompts(Number(event.target.value));
+  }
+
   function handleMultiSelectChange(event) {
     const value = event.target.value;
     setOmittedFrets(value);
 
     adjustNumberOfPrompts(minFret, maxFret, value);
-  }
-
-  function handleNumPromptsChange(event) {
-    const value = Number(event.target.value);
-    if (value > totalPossiblePrompts) return;
-    setNumberOfPrompts(Number(event.target.value));
   }
 
   function handleMinFretChange(event) {
