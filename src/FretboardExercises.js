@@ -19,6 +19,7 @@ const StyledPaper = styled(Paper)`
   width: 40vw;
   max-width: 40vw;
   margin-top: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const PromptsContainer = styled.div`
