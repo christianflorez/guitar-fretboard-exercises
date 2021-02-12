@@ -17,8 +17,8 @@ export const allNotes = [
 
 export const stringNoteOffsets = [7, 0, 5, 10, 2, 7];
 
-export const defaultNumberOfPrompts = 25;
+export const defaultNumberOfPrompts = 50;
 
-export const defaultMaxFret = 24;
+export const defaultMaxFret = 22;
 
-export const defaultMinFret = 0;
+export const defaultMinFret = 1;

@@ -100,7 +100,14 @@ function Prompts() {
     const updatedPromptValues = getPromptValues(updatedValues);
     setState(updatedValues);
     setPromptValues(updatedPromptValues);
-    setCheckedState(checkedState.slice(0, updatedValues.numberOfPrompts));
+    if (updatedValues.numberOfPrompts > state.numberOfPrompts) {
+      const missingCount =
+        updatedValues.numberOfPrompts - state.numberOfPrompts;
+      const additionalEmptyCheckedValues = _.times(missingCount, () => false);
+      setCheckedState(checkedState.concat(additionalEmptyCheckedValues));
+    } else {
+      setCheckedState(checkedState.slice(0, updatedValues.numberOfPrompts));
+    }
   }
 
   function handleCheck(index, updatedValue) {
