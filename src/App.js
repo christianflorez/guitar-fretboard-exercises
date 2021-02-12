@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import styled from "styled-components";
-import Prompts from "./Prompts";
+import FretboardExercises from "./FretboardExercises";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -35,7 +35,7 @@ export default function App() {
         </Toolbar>
       </AppBar>
       <AppContainer className="App">
-        <Prompts />
+        <FretboardExercises />
       </AppContainer>
     </ThemeProvider>
   );

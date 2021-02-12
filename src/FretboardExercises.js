@@ -53,7 +53,7 @@ function getFret(minFret, maxFret, omittedFrets) {
   return fretToUse;
 }
 
-function Prompts() {
+function FretboardExercises() {
   const [state, setState] = React.useState({
     numberOfPrompts: defaultNumberOfPrompts,
     minFret: defaultMinFret,
@@ -141,7 +141,6 @@ function Prompts() {
   return (
     <>
       <Settings updateState={updateState} />
-
       <StyledPaper elevation={3}>
         <HeaderContainer>
           <Typography variant="h6">Questions</Typography>
@@ -155,4 +154,4 @@ function Prompts() {
   );
 }
 
-export default Prompts;
+export default FretboardExercises;
