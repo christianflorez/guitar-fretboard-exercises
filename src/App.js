@@ -1,15 +1,11 @@
 import "./styles.css";
 import "fontsource-roboto";
-import Paper from "@material-ui/core/Paper";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import styled from "styled-components";
 import Prompts from "./Prompts";
-
-const StyledPaper = styled(Paper)`
-  padding: 1rem;
-  width: 40vw;
-  max-width: 40vw;
-  margin-top: 2rem;
-`;
 
 const AppContainer = styled.div`
   width: 100%;
@@ -19,13 +15,28 @@ const AppContainer = styled.div`
   align-items: center;
 `;
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: "#9c27b0" },
+    secondary: {
+      main: "#d81b60",
+    },
+
+    alternateTextColor: "#FFFFFF",
+  },
+});
+
 export default function App() {
   return (
-    <AppContainer className="App">
-      <StyledPaper elevation={3}>
-        <h1>Guitar Fretboard Exercises</h1>
+    <ThemeProvider theme={theme}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6">Guitar Fretboard Exerciser</Typography>
+        </Toolbar>
+      </AppBar>
+      <AppContainer className="App">
         <Prompts />
-      </StyledPaper>
-    </AppContainer>
+      </AppContainer>
+    </ThemeProvider>
   );
 }

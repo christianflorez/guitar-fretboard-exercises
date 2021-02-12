@@ -13,11 +13,9 @@ const PromptContainer = styled.div`
   cursor: pointer;
 `;
 
-function Prompt({ index, fret, stringIndex }) {
-  const [checked, setChecked] = React.useState(false);
-
+function Prompt({ index, fret, stringIndex, checked, setChecked }) {
   const handleChange = (event) => {
-    setChecked(event.target.checked);
+    setChecked(index, event.target.checked);
   };
 
   const stringNoteOffset = stringNoteOffsets[stringIndex];
@@ -25,7 +23,7 @@ function Prompt({ index, fret, stringIndex }) {
   const noteNameAnswer = allNotes[normalizedFret % 12];
 
   return (
-    <PromptContainer onClick={() => setChecked(!checked)}>
+    <PromptContainer onClick={() => setChecked(index, !checked)}>
       <Checkbox
         checked={checked}
         onChange={handleChange}
