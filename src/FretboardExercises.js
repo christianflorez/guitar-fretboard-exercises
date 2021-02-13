@@ -2,8 +2,11 @@ import React from "react";
 import _ from "lodash";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
+import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import { getRandomInt } from "./utils";
 import {
   strings,
@@ -37,6 +40,13 @@ const HeaderContainer = styled.div`
   width: 75%;
   padding-left: 15%;
   justify-content: space-between;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  width: 50%;
 `;
 
 function getFret(minFret, maxFret, omittedFrets) {
@@ -124,6 +134,11 @@ function FretboardExercises() {
     setCheckedState(_.times(defaultNumberOfPrompts, () => false));
   }
 
+  function handleRefresh() {
+    setPromptValues(getPromptValues(state));
+    handleReset();
+  }
+
   function renderPrompts() {
     return promptValues.map((prompt, i) => {
       return (
@@ -145,9 +160,16 @@ function FretboardExercises() {
       <StyledPaper elevation={3}>
         <HeaderContainer>
           <Typography variant="h6">Questions</Typography>
-          <Button variant="contained" color="secondary" onClick={handleReset}>
-            Reset Questions
-          </Button>
+          <ButtonContainer>
+            <Button variant="contained" color="secondary" onClick={handleReset}>
+              Reset Questions
+            </Button>
+            <Tooltip title="Get new set of questions" placement="top">
+              <IconButton edge="start" color="inherit" onClick={handleRefresh}>
+                <RefreshIcon />
+              </IconButton>
+            </Tooltip>
+          </ButtonContainer>
         </HeaderContainer>
         <PromptsContainer>{renderPrompts()}</PromptsContainer>
       </StyledPaper>
