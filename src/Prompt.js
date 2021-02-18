@@ -29,9 +29,9 @@ function Prompt({ index, fret, stringIndex, checked, setChecked }) {
         onChange={handleChange}
         inputProps={{ "aria-label": "primary checkbox" }}
       />
-      {index + 1}. Play fret {fret} on the{" "}
+      {index + 1}. What note is {fret} on the{" "}
       {stringIndex === 0 ? "low " : stringIndex === 5 ? "high " : ""}
-      {strings[stringIndex]} string
+      {strings[stringIndex]} string?
       {checked && (
         <Fade in={checked}>
           <Answer>The answer is: {noteNameAnswer}</Answer>
