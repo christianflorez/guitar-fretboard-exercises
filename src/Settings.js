@@ -19,7 +19,7 @@ import {
   defaultNumberOfPrompts,
   defaultMinFret,
   defaultMaxFret,
-  strings,
+  strings as allStrings,
 } from "./constants";
 
 const StyledAccordion = styled(Accordion)`
@@ -82,13 +82,14 @@ const MultiSelectFormControl = styled(FormControl)`
   }
 `;
 
-function Settings({ updateState }) {
+function Settings({ updateState, stringsToUse }) {
   const [numberOfPrompts, setNumberOfPrompts] = React.useState(
     defaultNumberOfPrompts
   );
   const [minFret, setMinFret] = React.useState(defaultMinFret);
   const [maxFret, setMaxFret] = React.useState(defaultMaxFret);
   const [omittedFrets, setOmittedFrets] = React.useState([]);
+  const [strings, setStrings] = React.useState(stringsToUse);
 
   const currentTotalPossiblePrompts =
     (Number(maxFret) + 1 - Number(minFret)) * strings.length -
@@ -106,11 +107,13 @@ function Settings({ updateState }) {
   function adjustNumberOfPrompts(
     minFretToUse,
     maxFretToUse,
-    omittedFretsToUse
+    omittedFretsToUse,
+    stringsAvailable
   ) {
     const newTotalPossiblePrompts =
-      (Number(maxFretToUse) + 1 - Number(minFretToUse)) * strings.length -
-      omittedFretsToUse.length * strings.length;
+      (Number(maxFretToUse) + 1 - Number(minFretToUse)) *
+        stringsAvailable.length -
+      omittedFretsToUse.length * stringsAvailable.length;
 
     if (newTotalPossiblePrompts < numberOfPrompts) {
       setNumberOfPrompts(newTotalPossiblePrompts);
@@ -123,11 +126,18 @@ function Settings({ updateState }) {
     setNumberOfPrompts(Number(event.target.value));
   }
 
-  function handleMultiSelectChange(event) {
+  function handleNumPromptsChange(event) {
     const value = event.target.value;
     setOmittedFrets(value);
 
-    adjustNumberOfPrompts(minFret, maxFret, value);
+    adjustNumberOfPrompts(minFret, maxFret, value, strings);
+  }
+
+  function handleStringsChange(event) {
+    const value = event.target.value;
+    setStrings(value);
+
+    adjustNumberOfPrompts(minFret, maxFret, omittedFrets, value);
   }
 
   function handleMinFretChange(event) {
@@ -135,7 +145,7 @@ function Settings({ updateState }) {
     if (value < defaultMinFret || value >= maxFret) return;
     setMinFret(value);
 
-    adjustNumberOfPrompts(value, maxFret, omittedFrets);
+    adjustNumberOfPrompts(value, maxFret, omittedFrets, strings);
   }
 
   function handleMaxFretChange(event) {
@@ -143,7 +153,7 @@ function Settings({ updateState }) {
     if (value > defaultMaxFret || value <= minFret) return;
     setMaxFret(value);
 
-    adjustNumberOfPrompts(minFret, value, omittedFrets);
+    adjustNumberOfPrompts(minFret, value, omittedFrets, strings);
   }
 
   function handleChangeNumPromptsSlider(event, newValue) {
@@ -151,7 +161,13 @@ function Settings({ updateState }) {
   }
 
   function onSubmit() {
-    const updatedState = { numberOfPrompts, minFret, maxFret, omittedFrets };
+    const updatedState = {
+      numberOfPrompts,
+      minFret,
+      maxFret,
+      omittedFrets,
+      stringsToUse: strings,
+    };
     updateState(updatedState);
   }
 
@@ -224,7 +240,7 @@ function Settings({ updateState }) {
                     id="mutiple-chip"
                     multiple
                     value={omittedFrets}
-                    onChange={handleMultiSelectChange}
+                    onChange={handleNumPromptsChange}
                     input={<Input id="select-multiple-chip" />}
                     renderValue={(selected) => (
                       <div>
@@ -237,6 +253,32 @@ function Settings({ updateState }) {
                     {possibleFrets.map((fret) => (
                       <MenuItem key={fret} value={fret}>
                         {fret}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </MultiSelectFormControl>
+                <MultiSelectFormControl>
+                  <InputLabel id="mutiple-chip-label2">
+                    Strings to use
+                  </InputLabel>
+                  <Select
+                    labelId="mutiple-chip-label"
+                    id="mutiple-chip"
+                    multiple
+                    value={strings}
+                    onChange={handleStringsChange}
+                    input={<Input id="select-multiple-chip2" />}
+                    renderValue={(selected) => (
+                      <div>
+                        {selected.map((value) => (
+                          <Chip key={value} label={value} />
+                        ))}
+                      </div>
+                    )}
+                  >
+                    {allStrings.map((string) => (
+                      <MenuItem key={string} value={string}>
+                        {string}
                       </MenuItem>
                     ))}
                   </Select>

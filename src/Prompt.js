@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Checkbox from "@material-ui/core/Checkbox";
 import Fade from "@material-ui/core/Fade";
-import { strings, allNotes, stringNoteOffsets } from "./constants";
+import { allNotes, stringNoteOffsets } from "./constants";
 
 const Answer = styled.div`
   color: skyblue;
@@ -13,12 +13,13 @@ const PromptContainer = styled.div`
   cursor: pointer;
 `;
 
-function Prompt({ index, fret, stringIndex, checked, setChecked }) {
+function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
   const handleChange = (event) => {
     setChecked(index, event.target.checked);
   };
 
-  const stringNoteOffset = stringNoteOffsets[stringIndex];
+  const stringName = strings[stringIndex];
+  const stringNoteOffset = stringNoteOffsets[stringName];
   const normalizedFret = fret + stringNoteOffset;
   const noteNameAnswer = allNotes[normalizedFret % 12];
 
@@ -29,9 +30,8 @@ function Prompt({ index, fret, stringIndex, checked, setChecked }) {
         onChange={handleChange}
         inputProps={{ "aria-label": "primary checkbox" }}
       />
-      {index + 1}. What note is {fret} on the{" "}
-      {stringIndex === 0 ? "low " : stringIndex === 5 ? "high " : ""}
-      {strings[stringIndex]} string?
+      {index + 1}. What note is fret {fret} on the {strings[stringIndex]}{" "}
+      string?
       {checked && (
         <Fade in={checked}>
           <Answer>The answer is: {noteNameAnswer}</Answer>

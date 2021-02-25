@@ -1,4 +1,4 @@
-export const strings = ["E", "A", "D", "G", "B", "E"];
+export const strings = ["Low E", "A", "D", "G", "B", "High E"];
 
 export const allNotes = [
   "A",
@@ -15,7 +15,14 @@ export const allNotes = [
   "G#/Ab",
 ];
 
-export const stringNoteOffsets = [7, 0, 5, 10, 2, 7];
+export const stringNoteOffsets = {
+  "Low E": 7,
+  A: 0,
+  D: 5,
+  G: 10,
+  B: 2,
+  "High E": 7,
+};
 
 export const defaultNumberOfPrompts = 50;
 

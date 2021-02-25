@@ -70,6 +70,7 @@ function FretboardExercises() {
     minFret: defaultMinFret,
     maxFret: defaultMaxFret,
     omittedFrets: [],
+    stringsToUse: strings,
   });
 
   const [checkedState, setCheckedState] = React.useState(() =>
@@ -84,13 +85,14 @@ function FretboardExercises() {
     maxFret,
     omittedFrets,
     numberOfPrompts,
+    stringsToUse,
   }) {
     const promptRawValues = [];
 
     _.times(numberOfPrompts, (i) => {
       let isUnique = false;
       while (!isUnique) {
-        const stringIndex = getRandomInt(0, strings.length - 1);
+        const stringIndex = getRandomInt(0, stringsToUse.length - 1);
         const fret = getFret(minFret, maxFret, omittedFrets);
         const existingPrompt = _.find(
           promptRawValues,
@@ -147,6 +149,7 @@ function FretboardExercises() {
           index={i}
           fret={prompt.fret}
           stringIndex={prompt.stringIndex}
+          strings={state.stringsToUse}
           checked={checkedState[i]}
           setChecked={handleCheck}
         />
@@ -156,7 +159,7 @@ function FretboardExercises() {
 
   return (
     <>
-      <Settings updateState={updateState} />
+      <Settings updateState={updateState} stringsToUse={state.stringsToUse} />
       <StyledPaper elevation={3}>
         <HeaderContainer>
           <Typography variant="h6">Questions</Typography>
