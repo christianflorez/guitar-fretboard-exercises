@@ -7,6 +7,8 @@ import { allNotes, stringNoteOffsets } from "./constants";
 const Answer = styled.div`
   color: skyblue;
   margin-bottom: 0.5rem;
+  display: flex;
+  padding-left: 3rem;
 `;
 
 const PromptContainer = styled.div`
@@ -34,7 +36,7 @@ function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
       string?
       {checked && (
         <Fade in={checked}>
-          <Answer>The answer is: {noteNameAnswer}</Answer>
+          <Answer>Answer: {noteNameAnswer}</Answer>
         </Fade>
       )}
     </PromptContainer>
