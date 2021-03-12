@@ -142,7 +142,7 @@ function Settings({ updateState, stringsToUse }) {
 
   function handleMinFretChange(event) {
     const value = Number(event.target.value);
-    if (value < defaultMinFret || value >= maxFret) return;
+    if (value < defaultMinFret || value >= defaultMaxFret) return;
     setMinFret(value);
 
     adjustNumberOfPrompts(value, maxFret, omittedFrets, strings);
