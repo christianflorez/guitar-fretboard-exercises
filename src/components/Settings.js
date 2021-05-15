@@ -82,7 +82,7 @@ const MultiSelectFormControl = styled(FormControl)`
   }
 `;
 
-function Settings({ updateState, stringsToUse }) {
+function Settings({ updateSettings, stringsToUse }) {
   const [numberOfPrompts, setNumberOfPrompts] = React.useState(
     defaultNumberOfPrompts
   );
@@ -168,7 +168,7 @@ function Settings({ updateState, stringsToUse }) {
       omittedFrets,
       stringsToUse: strings,
     };
-    updateState(updatedState);
+    updateSettings(updatedState);
   }
 
   const possibleFrets = _.chain(defaultMaxFret + 1)

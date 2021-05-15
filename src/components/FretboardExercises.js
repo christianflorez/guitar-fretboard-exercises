@@ -1,10 +1,11 @@
 import React from "react";
 import _ from "lodash";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import Switch from "@material-ui/core/Switch";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import RefreshIcon from "@material-ui/icons/Refresh";
 import { getRandomInt } from "../common/utils";
 import {
   strings,
@@ -12,7 +13,8 @@ import {
   defaultMinFret,
   defaultMaxFret,
 } from "../common/constants";
-import Prompt from "./IdentifyFretPrompt";
+import IdentifyNotePrompt from "./IdentifyNotePrompt";
+import IdentifyFretPrompt from "./IdentifyFretPrompt";
 import Settings from "./Settings";
 import * as S from "./styles";
 
@@ -39,7 +41,7 @@ function FretboardExercises() {
     omittedFrets: [],
     stringsToUse: strings,
   });
-
+  const [shouldIdentifyFrets, setShouldIdentifyFrets] = React.useState(false);
   const [checkedState, setCheckedState] = React.useState(() =>
     _.times(defaultNumberOfPrompts, () => false)
   );
@@ -76,7 +78,7 @@ function FretboardExercises() {
     return promptRawValues;
   }
 
-  function updateState(updatedValues) {
+  function updateSettings(updatedValues) {
     const updatedPromptValues = getPromptValues(updatedValues);
     setState(updatedValues);
     setPromptValues(updatedPromptValues);
@@ -90,7 +92,7 @@ function FretboardExercises() {
     }
   }
 
-  function handleCheck(index, updatedValue) {
+  function handleCheckPrompt(index, updatedValue) {
     const updatedCheckedState = _.map(checkedState, (value, i) => {
       if (i === index) return updatedValue;
       return value;
@@ -99,26 +101,36 @@ function FretboardExercises() {
     setCheckedState(updatedCheckedState);
   }
 
-  function handleReset() {
-    setCheckedState(_.times(defaultNumberOfPrompts, () => false));
+  function handleChangeGameMode(event) {
+    setShouldIdentifyFrets(event.target.checked);
   }
 
   function handleRefresh() {
     setPromptValues(getPromptValues(state));
-    handleReset();
+    setCheckedState(_.times(defaultNumberOfPrompts, () => false));
   }
 
   function renderPrompts() {
     return promptValues.map((prompt, i) => {
-      return (
-        <Prompt
+      return shouldIdentifyFrets ? (
+        <IdentifyFretPrompt
           key={i}
           index={i}
           fret={prompt.fret}
           stringIndex={prompt.stringIndex}
           strings={state.stringsToUse}
           checked={checkedState[i]}
-          setChecked={handleCheck}
+          setChecked={handleCheckPrompt}
+        />
+      ) : (
+        <IdentifyNotePrompt
+          key={i}
+          index={i}
+          fret={prompt.fret}
+          stringIndex={prompt.stringIndex}
+          strings={state.stringsToUse}
+          checked={checkedState[i]}
+          setChecked={handleCheckPrompt}
         />
       );
     });
@@ -126,20 +138,40 @@ function FretboardExercises() {
 
   return (
     <>
-      <Settings updateState={updateState} stringsToUse={state.stringsToUse} />
+      <Settings
+        updateState={updateSettings}
+        stringsToUse={state.stringsToUse}
+      />
       <S.StyledPaper elevation={3}>
         <S.HeaderContainer>
           <Typography variant="h6">Questions</Typography>
-          <S.ButtonContainer>
-            <Button variant="contained" color="secondary" onClick={handleReset}>
-              Reset Questions
-            </Button>
+          <S.ActionsContainer>
             <Tooltip title="Get new set of questions" placement="top">
-              <IconButton edge="start" color="inherit" onClick={handleRefresh}>
-                <RefreshIcon />
-              </IconButton>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleRefresh}
+                startIcon={<RefreshIcon />}
+              >
+                Reset
+              </Button>
             </Tooltip>
-          </S.ButtonContainer>
+            <Tooltip title="Change the game mode" placement="top">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={shouldIdentifyFrets}
+                    onChange={handleChangeGameMode}
+                    name="checkedB"
+                    color="secondary"
+                  />
+                }
+                label={
+                  shouldIdentifyFrets ? "Identify Notes" : "Identify Frets"
+                }
+              />
+            </Tooltip>
+          </S.ActionsContainer>
         </S.HeaderContainer>
         <S.PromptsContainer>{renderPrompts()}</S.PromptsContainer>
       </S.StyledPaper>

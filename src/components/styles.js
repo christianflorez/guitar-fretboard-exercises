@@ -34,7 +34,7 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
 `;
 
-export const ButtonContainer = styled.div`
+export const ActionsContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;

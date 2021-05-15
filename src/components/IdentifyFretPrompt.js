@@ -12,7 +12,8 @@ function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
   const stringName = strings[stringIndex];
   const stringNoteOffset = stringNoteOffsets[stringName];
   const normalizedFret = fret + stringNoteOffset;
-  const noteNameAnswer = allNotes[normalizedFret % 12];
+  const noteName = allNotes[normalizedFret % 12];
+  const octave = fret <= 11 ? "Lower" : "Upper";
 
   return (
     <S.PromptContainer onClick={() => setChecked(index, !checked)}>
@@ -21,11 +22,11 @@ function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
         onChange={handleChange}
         inputProps={{ "aria-label": "primary checkbox" }}
       />
-      {index + 1}. What note is fret {fret} on the {strings[stringIndex]}{" "}
-      string?
+      {index + 1}. What fret is the note {noteName} on the{" "}
+      {strings[stringIndex]} string? ({octave} octave)
       {checked && (
         <Fade in={checked}>
-          <S.Answer>Answer: {noteNameAnswer}</S.Answer>
+          <S.Answer>Answer: Fret {fret}</S.Answer>
         </Fade>
       )}
     </S.PromptContainer>
