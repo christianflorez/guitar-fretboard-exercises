@@ -115,7 +115,6 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
     .filter((i) => !_.isNil(i))
     .value();
 
-  console.log("omittedFrets", omittedFrets);
   return (
     <>
       <S.SettingsHeaderContainer>
