@@ -141,7 +141,7 @@ function FretboardExercises({ isSettingsOpen, setIsSettingsOpen }) {
   return (
     <>
       <Drawer
-        anchor="left"
+        anchor="right"
         open={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
       >

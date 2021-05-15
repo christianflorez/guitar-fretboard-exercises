@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Chip from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
@@ -124,7 +124,7 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
           color="inherit"
           onClick={() => setIsSettingsOpen(false)}
         >
-          <ChevronLeftIcon fontSize="large" />
+          <ChevronRightIcon fontSize="large" />
         </IconButton>
       </S.SettingsHeaderContainer>
       <div>
