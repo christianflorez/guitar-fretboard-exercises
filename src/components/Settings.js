@@ -20,7 +20,7 @@ import {
   defaultMinFret,
   defaultMaxFret,
   strings as allStrings,
-} from "./constants";
+} from "../common/constants";
 
 const StyledAccordion = styled(Accordion)`
   border-bottom-left-radius: 4px;

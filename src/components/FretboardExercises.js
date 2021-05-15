@@ -1,53 +1,20 @@
 import React from "react";
 import _ from "lodash";
-import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import Paper from "@material-ui/core/Paper";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import { getRandomInt } from "./utils";
+import { getRandomInt } from "../common/utils";
 import {
   strings,
   defaultNumberOfPrompts,
   defaultMinFret,
   defaultMaxFret,
-} from "./constants";
-import Prompt from "./Prompt";
+} from "../common/constants";
+import Prompt from "./IdentifyFretPrompt";
 import Settings from "./Settings";
-
-const StyledPaper = styled(Paper)`
-  padding: 1rem;
-  width: 40vw;
-  max-width: 40vw;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-`;
-
-const PromptsContainer = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  padding-left: 7rem;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  width: 75%;
-  padding-left: 15%;
-  justify-content: space-between;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-evenly;
-  width: 50%;
-`;
+import * as S from "./styles";
 
 function getFret(minFret, maxFret, omittedFrets) {
   let isFretValid = false;
@@ -160,10 +127,10 @@ function FretboardExercises() {
   return (
     <>
       <Settings updateState={updateState} stringsToUse={state.stringsToUse} />
-      <StyledPaper elevation={3}>
-        <HeaderContainer>
+      <S.StyledPaper elevation={3}>
+        <S.HeaderContainer>
           <Typography variant="h6">Questions</Typography>
-          <ButtonContainer>
+          <S.ButtonContainer>
             <Button variant="contained" color="secondary" onClick={handleReset}>
               Reset Questions
             </Button>
@@ -172,10 +139,10 @@ function FretboardExercises() {
                 <RefreshIcon />
               </IconButton>
             </Tooltip>
-          </ButtonContainer>
-        </HeaderContainer>
-        <PromptsContainer>{renderPrompts()}</PromptsContainer>
-      </StyledPaper>
+          </S.ButtonContainer>
+        </S.HeaderContainer>
+        <S.PromptsContainer>{renderPrompts()}</S.PromptsContainer>
+      </S.StyledPaper>
     </>
   );
 }

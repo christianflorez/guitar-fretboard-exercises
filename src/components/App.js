@@ -1,21 +1,11 @@
-import "./styles.css";
-import "fontsource-roboto";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import MusicNoteIcon from "@material-ui/icons/MusicNote";
-import styled from "styled-components";
 import FretboardExercises from "./FretboardExercises";
-
-const AppContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-`;
+import * as S from "./styles";
 
 const theme = createMuiTheme({
   palette: {
@@ -39,9 +29,9 @@ export default function App() {
           <Typography variant="h6">Guitar Fretboard Exerciser</Typography>
         </Toolbar>
       </AppBar>
-      <AppContainer className="App">
+      <S.AppContainer className="App">
         <FretboardExercises />
-      </AppContainer>
+      </S.AppContainer>
     </ThemeProvider>
   );
 }

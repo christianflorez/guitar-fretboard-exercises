@@ -1,19 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 import Checkbox from "@material-ui/core/Checkbox";
 import Fade from "@material-ui/core/Fade";
-import { allNotes, stringNoteOffsets } from "./constants";
-
-const Answer = styled.div`
-  color: skyblue;
-  margin-bottom: 0.5rem;
-  display: flex;
-  padding-left: 3rem;
-`;
-
-const PromptContainer = styled.div`
-  cursor: pointer;
-`;
+import { allNotes, stringNoteOffsets } from "../common/constants";
+import * as S from "./styles";
 
 function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
   const handleChange = (event) => {
@@ -26,7 +15,7 @@ function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
   const noteNameAnswer = allNotes[normalizedFret % 12];
 
   return (
-    <PromptContainer onClick={() => setChecked(index, !checked)}>
+    <S.PromptContainer onClick={() => setChecked(index, !checked)}>
       <Checkbox
         checked={checked}
         onChange={handleChange}
@@ -36,10 +25,10 @@ function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
       string?
       {checked && (
         <Fade in={checked}>
-          <Answer>Answer: {noteNameAnswer}</Answer>
+          <S.Answer>Answer: {noteNameAnswer}</S.Answer>
         </Fade>
       )}
-    </PromptContainer>
+    </S.PromptContainer>
   );
 }
 
