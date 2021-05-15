@@ -50,7 +50,6 @@ export const PromptsContainer = styled.div`
 export const FilterChipsContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
-  margin-top: 1rem;
   margin-bottom: 1rem;
   & > div {
     margin-top: 5px;
