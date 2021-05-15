@@ -1,20 +1,15 @@
 import React from "react";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Button from "@material-ui/core/Button";
+import _ from "lodash";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Chip from "@material-ui/core/Chip";
-import FormControl from "@material-ui/core/FormControl";
+import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import styled from "styled-components";
-import _ from "lodash";
+import * as S from "./styles";
 import {
   defaultNumberOfPrompts,
   defaultMinFret,
@@ -22,74 +17,14 @@ import {
   strings as allStrings,
 } from "../common/constants";
 
-const StyledAccordion = styled(Accordion)`
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-
-  && {
-    && {
-      margin-top: 1rem;
-      width: 40vw;
-    }
-  }
-`;
-
-const SettingsContainer = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-  margin-bottom: 3rem;
-  padding: 0 15%;
-`;
-
-const InputsColumn = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  width: 100%;
-`;
-
-const InputsRow = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  > div {
-    max-width: 8rem;
-  }
-
-  &&:not(:first-of-type) {
-    margin-top: 1rem;
-  }
-`;
-
-const InputsContainer = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-`;
-
-const StyledButton = styled(Button)`
-  max-height: 5rem;
-  && {
-    margin-left: 1rem;
-  }
-`;
-
-const MultiSelectFormControl = styled(FormControl)`
-  && {
-    min-width: 8rem;
-    max-width: 25rem;
-  }
-`;
-
-function Settings({ updateSettings, stringsToUse }) {
+function Settings({ updateSettings, setIsSettingsOpen, state }) {
   const [numberOfPrompts, setNumberOfPrompts] = React.useState(
-    defaultNumberOfPrompts
+    state.numberOfPrompts
   );
-  const [minFret, setMinFret] = React.useState(defaultMinFret);
-  const [maxFret, setMaxFret] = React.useState(defaultMaxFret);
-  const [omittedFrets, setOmittedFrets] = React.useState([]);
-  const [strings, setStrings] = React.useState(stringsToUse);
+  const [minFret, setMinFret] = React.useState(state.minFret);
+  const [maxFret, setMaxFret] = React.useState(state.maxFret);
+  const [omittedFrets, setOmittedFrets] = React.useState(state.omittedFrets);
+  const [strings, setStrings] = React.useState(state.stringsToUse);
 
   const currentTotalPossiblePrompts =
     (Number(maxFret) + 1 - Number(minFret)) * strings.length -
@@ -169,6 +104,7 @@ function Settings({ updateSettings, stringsToUse }) {
       stringsToUse: strings,
     };
     updateSettings(updatedState);
+    setIsSettingsOpen(false);
   }
 
   const possibleFrets = _.chain(defaultMaxFret + 1)
@@ -179,122 +115,118 @@ function Settings({ updateSettings, stringsToUse }) {
     .filter((i) => !_.isNil(i))
     .value();
 
+  console.log("omittedFrets", omittedFrets);
   return (
     <>
-      <StyledAccordion defaultExpanded>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+      <S.SettingsHeaderContainer>
+        <S.SettingsHeader variant="h5">Settings</S.SettingsHeader>
+        <IconButton
+          edge="start"
+          color="inherit"
+          onClick={() => setIsSettingsOpen(false)}
         >
-          <Typography variant="h6">Settings</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <SettingsContainer>
-            <InputsColumn>
-              <InputsRow>
-                <InputsContainer>
-                  <TextField
-                    id="amountOfPrompts"
-                    value={numberOfPrompts}
-                    onChange={handleNumPromptsChange}
-                    type="number"
-                    label="Number of Questions"
-                    variant="outlined"
-                  />
-                  <Slider
-                    value={numberOfPrompts}
-                    onChange={handleChangeNumPromptsSlider}
-                    aria-labelledby="continuous-slider"
-                    min={1}
-                    max={currentTotalPossiblePrompts}
-                    defaultValue={defaultNumberOfPrompts}
-                  />
-                </InputsContainer>
-                <InputsContainer>
-                  <TextField
-                    id="minFretInput"
-                    value={minFret}
-                    onChange={handleMinFretChange}
-                    type="number"
-                    label="Min Fret"
-                    variant="outlined"
-                  />
-                </InputsContainer>
-                <InputsContainer>
-                  <TextField
-                    id="maxFretInput"
-                    value={maxFret}
-                    onChange={handleMaxFretChange}
-                    type="number"
-                    label="Max Fret"
-                    variant="outlined"
-                  />
-                </InputsContainer>
-              </InputsRow>
-              <InputsRow>
-                <MultiSelectFormControl>
-                  <InputLabel id="mutiple-chip-label">Frets to Omit</InputLabel>
-                  <Select
-                    labelId="mutiple-chip-label"
-                    id="mutiple-chip"
-                    multiple
-                    value={omittedFrets}
-                    onChange={handleNumPromptsChange}
-                    input={<Input id="select-multiple-chip" />}
-                    renderValue={(selected) => (
-                      <div>
-                        {selected.map((value) => (
-                          <Chip key={value} label={value} />
-                        ))}
-                      </div>
-                    )}
-                  >
-                    {possibleFrets.map((fret) => (
-                      <MenuItem key={fret} value={fret}>
-                        {fret}
-                      </MenuItem>
+          <ChevronLeftIcon fontSize="large" />
+        </IconButton>
+      </S.SettingsHeaderContainer>
+      <div>
+        <S.SettingsContainer>
+          <S.InputsColumn>
+            <S.InputsContainer>
+              <TextField
+                id="amountOfPrompts"
+                value={numberOfPrompts}
+                onChange={handleNumPromptsChange}
+                type="number"
+                label="Number of Questions"
+                variant="outlined"
+              />
+              <Slider
+                value={numberOfPrompts}
+                onChange={handleChangeNumPromptsSlider}
+                aria-labelledby="continuous-slider"
+                min={1}
+                max={currentTotalPossiblePrompts}
+                defaultValue={defaultNumberOfPrompts}
+              />
+            </S.InputsContainer>
+            <S.InputsContainer>
+              <TextField
+                id="minFretInput"
+                value={minFret}
+                onChange={handleMinFretChange}
+                type="number"
+                label="Min Fret"
+                variant="outlined"
+              />
+            </S.InputsContainer>
+            <S.InputsContainer>
+              <TextField
+                id="maxFretInput"
+                value={maxFret}
+                onChange={handleMaxFretChange}
+                type="number"
+                label="Max Fret"
+                variant="outlined"
+              />
+            </S.InputsContainer>
+            <S.MultiSelectFormControl>
+              <InputLabel id="mutiple-chip-label">Frets to Omit</InputLabel>
+              <Select
+                labelId="mutiple-chip-label"
+                id="mutiple-chip"
+                multiple
+                value={omittedFrets}
+                onChange={handleNumPromptsChange}
+                input={<Input id="select-multiple-chip" />}
+                renderValue={(selected) => (
+                  <div>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
                     ))}
-                  </Select>
-                </MultiSelectFormControl>
-                <MultiSelectFormControl>
-                  <InputLabel id="mutiple-chip-label2">
-                    Strings to use
-                  </InputLabel>
-                  <Select
-                    labelId="mutiple-chip-label"
-                    id="mutiple-chip"
-                    multiple
-                    value={strings}
-                    onChange={handleStringsChange}
-                    input={<Input id="select-multiple-chip2" />}
-                    renderValue={(selected) => (
-                      <div>
-                        {selected.map((value) => (
-                          <Chip key={value} label={value} />
-                        ))}
-                      </div>
-                    )}
-                  >
-                    {allStrings.map((string) => (
-                      <MenuItem key={string} value={string}>
-                        {string}
-                      </MenuItem>
+                  </div>
+                )}
+              >
+                {possibleFrets.map((fret) => (
+                  <MenuItem key={fret} value={fret}>
+                    {fret}
+                  </MenuItem>
+                ))}
+              </Select>
+            </S.MultiSelectFormControl>
+            <S.MultiSelectFormControl>
+              <InputLabel id="mutiple-chip-label2">Strings to use</InputLabel>
+              <Select
+                labelId="mutiple-chip-label"
+                id="mutiple-chip"
+                multiple
+                value={strings}
+                onChange={handleStringsChange}
+                input={<Input id="select-multiple-chip2" />}
+                renderValue={(selected) => (
+                  <div>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
                     ))}
-                  </Select>
-                </MultiSelectFormControl>
-              </InputsRow>
-            </InputsColumn>
-            <StyledButton
+                  </div>
+                )}
+              >
+                {allStrings.map((string) => (
+                  <MenuItem key={string} value={string}>
+                    {string}
+                  </MenuItem>
+                ))}
+              </Select>
+            </S.MultiSelectFormControl>
+            <S.StyledButton
               variant="contained"
               color="primary"
               onClick={onSubmit}
             >
               Update
-            </StyledButton>
-          </SettingsContainer>
-        </AccordionDetails>
-      </StyledAccordion>
+            </S.StyledButton>
+          </S.InputsColumn>
+        </S.SettingsContainer>
+      </div>
     </>
   );
 }

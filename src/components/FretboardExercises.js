@@ -1,6 +1,8 @@
 import React from "react";
 import _ from "lodash";
 import Button from "@material-ui/core/Button";
+import Chip from "@material-ui/core/Chip";
+import Drawer from "@material-ui/core/Drawer";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import Switch from "@material-ui/core/Switch";
@@ -33,7 +35,7 @@ function getFret(minFret, maxFret, omittedFrets) {
   return fretToUse;
 }
 
-function FretboardExercises() {
+function FretboardExercises({ isSettingsOpen, setIsSettingsOpen }) {
   const [state, setState] = React.useState({
     numberOfPrompts: defaultNumberOfPrompts,
     minFret: defaultMinFret,
@@ -138,23 +140,39 @@ function FretboardExercises() {
 
   return (
     <>
-      <Settings
-        updateState={updateSettings}
-        stringsToUse={state.stringsToUse}
-      />
+      <Drawer
+        anchor="left"
+        open={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      >
+        <Settings
+          updateSettings={updateSettings}
+          state={state}
+          setIsSettingsOpen={setIsSettingsOpen}
+        />
+      </Drawer>
       <S.StyledPaper elevation={3}>
+        <S.FilterChipsContainer>
+          <Chip label={`Prompts: ${state.numberOfPrompts}`} />
+          <Chip label={`Min Fret: ${state.minFret}`} />
+          <Chip label={`Max Fret: ${state.maxFret}`} />
+          {!_.isEmpty(state.omittedFrets) && (
+            <Chip label={`Omitted Frets: ${state.omittedFrets.join(", ")}`} />
+          )}
+          <Chip label={`Strings to use: ${state.stringsToUse.join(", ")}`} />
+        </S.FilterChipsContainer>
         <S.HeaderContainer>
           <Typography variant="h6">Questions</Typography>
           <S.ActionsContainer>
             <Tooltip title="Get new set of questions" placement="top">
-              <Button
+              <S.ResetButton
                 variant="outlined"
                 color="secondary"
                 onClick={handleRefresh}
                 startIcon={<RefreshIcon />}
               >
                 Reset
-              </Button>
+              </S.ResetButton>
             </Tooltip>
             <Tooltip title="Change the game mode" placement="top">
               <FormControlLabel
