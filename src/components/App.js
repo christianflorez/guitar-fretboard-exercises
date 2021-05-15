@@ -29,7 +29,7 @@ export default function App() {
           <S.ToolbarContainer>
             <S.LeftHandToolbarContainer>
               <IconButton edge="start" color="inherit">
-                <MusicNoteIcon />
+                <MusicNoteIcon fontSize="large" />
               </IconButton>
               <Typography variant="h6">Guitar Fretboard Exerciser</Typography>
             </S.LeftHandToolbarContainer>
@@ -39,7 +39,7 @@ export default function App() {
                 color="inherit"
                 onClick={() => setIsSettingsOpen(!isSettingsOpen)}
               >
-                <SettingsIcon />
+                <SettingsIcon fontSize="large" />
               </IconButton>
             </div>
           </S.ToolbarContainer>
