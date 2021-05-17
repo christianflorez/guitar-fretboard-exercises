@@ -22,8 +22,8 @@ function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
           onChange={handleChange}
           inputProps={{ "aria-label": "primary checkbox" }}
         />
-        {index + 1}. What note is fret {fret} on the {strings[stringIndex]}{" "}
-        string?
+        {index + 1}. <S.StringName>{strings[stringIndex]} string</S.StringName>:
+        What note is fret {fret}?
       </S.PromptQuestion>
       <div>
         {checked && (

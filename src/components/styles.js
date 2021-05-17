@@ -103,6 +103,10 @@ export const PromptQuestion = styled.div`
   align-items: center;
 `;
 
+export const StringName = styled.b`
+  margin-left: 4px;
+`;
+
 export const SettingsContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
