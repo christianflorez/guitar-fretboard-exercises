@@ -32,7 +32,7 @@ export const LeftHandToolbarContainer = styled.div`
 
 export const StyledPaper = styled(Paper)`
   padding: 1rem;
-  width: 39vw;
+  width: 40vw;
   margin-top: 1rem;
   margin-bottom: 2rem;
   @media (max-width: 1700px) {
