@@ -3,6 +3,9 @@ import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import colors from "common/colors";
 
 export const AppContainer = styled.div`
   width: 100%;
@@ -89,6 +92,15 @@ export const Answer = styled.div`
 
 export const PromptContainer = styled.div`
   cursor: pointer;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+`;
+
+export const PromptQuestion = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
 `;
 
 export const SettingsContainer = styled.div`
@@ -142,4 +154,12 @@ export const MultiSelectFormControl = styled(FormControl)`
     width: 17rem;
     min-width: 17rem;
   }
+`;
+
+export const UpperOctaveIcon = styled(ArrowUpwardIcon)`
+  color: ${colors.success};
+`;
+
+export const LowerOctaveIcon = styled(ArrowDownwardIcon)`
+  color: ${colors.error};
 `;

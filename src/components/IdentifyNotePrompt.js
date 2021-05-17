@@ -16,18 +16,22 @@ function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
 
   return (
     <S.PromptContainer onClick={() => setChecked(index, !checked)}>
-      <Checkbox
-        checked={checked}
-        onChange={handleChange}
-        inputProps={{ "aria-label": "primary checkbox" }}
-      />
-      {index + 1}. What note is fret {fret} on the {strings[stringIndex]}{" "}
-      string?
-      {checked && (
-        <Fade in={checked}>
-          <S.Answer>Answer: {noteNameAnswer}</S.Answer>
-        </Fade>
-      )}
+      <S.PromptQuestion>
+        <Checkbox
+          checked={checked}
+          onChange={handleChange}
+          inputProps={{ "aria-label": "primary checkbox" }}
+        />
+        {index + 1}. What note is fret {fret} on the {strings[stringIndex]}{" "}
+        string?
+      </S.PromptQuestion>
+      <div>
+        {checked && (
+          <Fade in={checked}>
+            <S.Answer>Answer: {noteNameAnswer}</S.Answer>
+          </Fade>
+        )}
+      </div>
     </S.PromptContainer>
   );
 }
