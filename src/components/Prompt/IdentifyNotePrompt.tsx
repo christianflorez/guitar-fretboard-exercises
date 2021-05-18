@@ -1,22 +1,21 @@
 import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import Fade from "@material-ui/core/Fade";
-import { allNotes, stringNoteOffsets } from "../common/constants";
+import { allNotes, stringNoteOffsets } from "common/constants";
+import { PromptProps } from "./types";
 import * as S from "./styles";
 
-interface IdentifyNotePromptProps {
-  index: number
-  fret: number
-  stringIndex: number
-  checked: boolean
-  setChecked: (index: number, updatedValue: boolean) => void
-  strings: string[]
-}
-
-function IdentifyNotePrompt({ index, fret, stringIndex, checked, setChecked, strings }:IdentifyNotePromptProps) {
+function IdentifyNotePrompt({
+  index,
+  fret,
+  stringIndex,
+  checked,
+  setChecked,
+  strings,
+}: PromptProps) {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setChecked(index, event.target.checked);
-  };
+  }
 
   const stringName = strings[stringIndex];
   const stringNoteOffset = stringNoteOffsets[stringName];

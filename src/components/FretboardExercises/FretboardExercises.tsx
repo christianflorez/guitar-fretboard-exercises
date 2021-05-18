@@ -7,16 +7,15 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import Switch from "@material-ui/core/Switch";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import { getRandomInt } from "../common/utils";
+import { getRandomInt } from "common/utils";
 import {
   strings,
   defaultNumberOfPrompts,
   defaultMinFret,
   defaultMaxFret,
-} from "../common/constants";
-import IdentifyNotePrompt from "./IdentifyNotePrompt";
-import IdentifyFretPrompt from "./IdentifyFretPrompt";
-import Settings from "./Settings";
+} from "common/constants";
+import { IdentifyNotePrompt, IdentifyFretPrompt } from "components/Prompt";
+import Settings from "components/Settings";
 import * as S from "./styles";
 
 interface FretboardExercisesProps {

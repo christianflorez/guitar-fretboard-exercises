@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import SettingsIcon from "@material-ui/icons/Settings";
-import FretboardExercises from "./FretboardExercises";
+import FretboardExercises from "components/FretboardExercises";
 import * as S from "./styles";
 
 const theme = createMuiTheme({
@@ -20,7 +20,7 @@ const theme = createMuiTheme({
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
-  
+
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">
