@@ -62,15 +62,25 @@ function Settings({ updateSettings, setIsSettingsOpen, state }: SettingsProps) {
     }
   }
 
-  function handleNumPromptsChange(event: React.ChangeEvent<{ value: any }>) {
-    const value = event.target.value;
+  function handleNumPromptsChange(
+    event: React.ChangeEvent<{ value: unknown }>
+  ) {
+    const value = Number(event.target.value);
+    if (value > currentTotalPossiblePrompts) return;
+    setNumberOfPrompts(Number(event.target.value));
+  }
+
+  function handleOmittedFretsChange(
+    event: React.ChangeEvent<{ value: unknown }>
+  ) {
+    const value = event.target.value as number[];
     setOmittedFrets(value);
 
     adjustNumberOfPrompts(minFret, maxFret, value, strings);
   }
 
-  function handleStringsChange(event: React.ChangeEvent<{ value: any }>) {
-    const value = event.target.value;
+  function handleStringsChange(event: React.ChangeEvent<{ value: unknown }>) {
+    const value = event.target.value as string[];
     setStrings(value);
 
     adjustNumberOfPrompts(minFret, maxFret, omittedFrets, value);
@@ -179,7 +189,7 @@ function Settings({ updateSettings, setIsSettingsOpen, state }: SettingsProps) {
                 id="mutiple-chip"
                 multiple
                 value={omittedFrets}
-                onChange={handleNumPromptsChange}
+                onChange={handleOmittedFretsChange}
                 input={<Input id="select-multiple-chip" />}
                 renderValue={(selected: unknown) => (
                   <div>
