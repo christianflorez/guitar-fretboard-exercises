@@ -9,15 +9,22 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
+import { FretboardExercisesState } from "components/FretboardExercises";
 import * as S from "./styles";
 import {
   defaultNumberOfPrompts,
   defaultMinFret,
   defaultMaxFret,
   strings as allStrings,
-} from "../common/constants";
+} from "common/constants";
 
-function Settings({ updateSettings, setIsSettingsOpen, state }) {
+export interface SettingsProps {
+  updateSettings: (state: FretboardExercisesState) => void;
+  setIsSettingsOpen: (isSettingsOpen: boolean) => void;
+  state: FretboardExercisesState;
+}
+
+function Settings({ updateSettings, setIsSettingsOpen, state }: SettingsProps) {
   const [numberOfPrompts, setNumberOfPrompts] = React.useState(
     state.numberOfPrompts
   );
@@ -40,10 +47,10 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
   }, [maxFret, minFret, omittedFrets]);
 
   function adjustNumberOfPrompts(
-    minFretToUse,
-    maxFretToUse,
-    omittedFretsToUse,
-    stringsAvailable
+    minFretToUse: number,
+    maxFretToUse: number,
+    omittedFretsToUse: number[],
+    stringsAvailable: string[]
   ) {
     const newTotalPossiblePrompts =
       (Number(maxFretToUse) + 1 - Number(minFretToUse)) *
@@ -55,27 +62,21 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
     }
   }
 
-  function handleNumPromptsChange(event) {
-    const value = Number(event.target.value);
-    if (value > currentTotalPossiblePrompts) return;
-    setNumberOfPrompts(Number(event.target.value));
-  }
-
-  function handleNumPromptsChange(event) {
+  function handleNumPromptsChange(event: React.ChangeEvent<{ value: any }>) {
     const value = event.target.value;
     setOmittedFrets(value);
 
     adjustNumberOfPrompts(minFret, maxFret, value, strings);
   }
 
-  function handleStringsChange(event) {
+  function handleStringsChange(event: React.ChangeEvent<{ value: any }>) {
     const value = event.target.value;
     setStrings(value);
 
     adjustNumberOfPrompts(minFret, maxFret, omittedFrets, value);
   }
 
-  function handleMinFretChange(event) {
+  function handleMinFretChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = Number(event.target.value);
     if (value < defaultMinFret || value >= defaultMaxFret) return;
     setMinFret(value);
@@ -83,7 +84,7 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
     adjustNumberOfPrompts(value, maxFret, omittedFrets, strings);
   }
 
-  function handleMaxFretChange(event) {
+  function handleMaxFretChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = Number(event.target.value);
     if (value > defaultMaxFret || value <= minFret) return;
     setMaxFret(value);
@@ -91,8 +92,11 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
     adjustNumberOfPrompts(minFret, value, omittedFrets, strings);
   }
 
-  function handleChangeNumPromptsSlider(event, newValue) {
-    setNumberOfPrompts(newValue);
+  function handleChangeNumPromptsSlider(
+    event: any,
+    newValue: number | number[]
+  ) {
+    setNumberOfPrompts(newValue as number);
   }
 
   function onSubmit() {
@@ -113,7 +117,7 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
       return null;
     })
     .filter((i) => !_.isNil(i))
-    .value();
+    .value() as number[];
 
   return (
     <>
@@ -177,9 +181,9 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
                 value={omittedFrets}
                 onChange={handleNumPromptsChange}
                 input={<Input id="select-multiple-chip" />}
-                renderValue={(selected) => (
+                renderValue={(selected: unknown) => (
                   <div>
-                    {selected.map((value) => (
+                    {(selected as string[]).map((value) => (
                       <Chip key={value} label={value} />
                     ))}
                   </div>
@@ -201,9 +205,9 @@ function Settings({ updateSettings, setIsSettingsOpen, state }) {
                 value={strings}
                 onChange={handleStringsChange}
                 input={<Input id="select-multiple-chip2" />}
-                renderValue={(selected) => (
+                renderValue={(selected: unknown) => (
                   <div>
-                    {selected.map((value) => (
+                    {(selected as string[]).map((value) => (
                       <Chip key={value} label={value} />
                     ))}
                   </div>

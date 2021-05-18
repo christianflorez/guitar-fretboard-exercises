@@ -1,6 +1,5 @@
 import React from "react";
 import _ from "lodash";
-import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
 import Drawer from "@material-ui/core/Drawer";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -20,7 +19,29 @@ import IdentifyFretPrompt from "./IdentifyFretPrompt";
 import Settings from "./Settings";
 import * as S from "./styles";
 
-function getFret(minFret, maxFret, omittedFrets) {
+interface FretboardExercisesProps {
+  isSettingsOpen: boolean;
+  setIsSettingsOpen: (isSettingsOpen: boolean) => void;
+}
+
+interface Prompt {
+  stringIndex: number;
+  fret: number;
+}
+
+export interface FretboardExercisesState {
+  numberOfPrompts: number;
+  minFret: number;
+  maxFret: number;
+  omittedFrets: number[];
+  stringsToUse: string[];
+}
+
+function getFret(
+  minFret: number,
+  maxFret: number,
+  omittedFrets: number[]
+): number {
   let isFretValid = false;
   let fretToUse;
 
@@ -32,11 +53,14 @@ function getFret(minFret, maxFret, omittedFrets) {
     }
   }
 
-  return fretToUse;
+  return fretToUse as number;
 }
 
-function FretboardExercises({ isSettingsOpen, setIsSettingsOpen }) {
-  const [state, setState] = React.useState({
+function FretboardExercises({
+  isSettingsOpen,
+  setIsSettingsOpen,
+}: FretboardExercisesProps) {
+  const [state, setState] = React.useState<FretboardExercisesState>({
     numberOfPrompts: defaultNumberOfPrompts,
     minFret: defaultMinFret,
     maxFret: defaultMaxFret,
@@ -57,17 +81,18 @@ function FretboardExercises({ isSettingsOpen, setIsSettingsOpen }) {
     omittedFrets,
     numberOfPrompts,
     stringsToUse,
-  }) {
-    const promptRawValues = [];
+  }: FretboardExercisesState) {
+    const promptRawValues: Prompt[] = [];
 
-    _.times(numberOfPrompts, (i) => {
+    _.times(numberOfPrompts, () => {
       let isUnique = false;
       while (!isUnique) {
         const stringIndex = getRandomInt(0, stringsToUse.length - 1);
         const fret = getFret(minFret, maxFret, omittedFrets);
         const existingPrompt = _.find(
           promptRawValues,
-          (prompt) => prompt.stringIndex === stringIndex && prompt.fret === fret
+          (prompt: Prompt) =>
+            prompt.stringIndex === stringIndex && prompt.fret === fret
         );
 
         if (_.isNil(existingPrompt)) {
@@ -80,7 +105,7 @@ function FretboardExercises({ isSettingsOpen, setIsSettingsOpen }) {
     return promptRawValues;
   }
 
-  function updateSettings(updatedValues) {
+  function updateSettings(updatedValues: FretboardExercisesState) {
     const updatedPromptValues = getPromptValues(updatedValues);
     setState(updatedValues);
     setPromptValues(updatedPromptValues);
@@ -94,16 +119,19 @@ function FretboardExercises({ isSettingsOpen, setIsSettingsOpen }) {
     }
   }
 
-  function handleCheckPrompt(index, updatedValue) {
-    const updatedCheckedState = _.map(checkedState, (value, i) => {
-      if (i === index) return updatedValue;
-      return value;
-    });
+  function handleCheckPrompt(index: number, updatedValue: boolean) {
+    const updatedCheckedState = _.map(
+      checkedState,
+      (value: boolean, i: number) => {
+        if (i === index) return updatedValue;
+        return value;
+      }
+    );
 
     setCheckedState(updatedCheckedState);
   }
 
-  function handleChangeGameMode(event) {
+  function handleChangeGameMode(event: React.ChangeEvent<HTMLInputElement>) {
     setShouldIdentifyFrets(event.target.checked);
   }
 

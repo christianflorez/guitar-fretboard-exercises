@@ -20,6 +20,7 @@ const theme = createMuiTheme({
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
+  
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">

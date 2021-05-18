@@ -4,8 +4,17 @@ import Fade from "@material-ui/core/Fade";
 import { allNotes, stringNoteOffsets } from "../common/constants";
 import * as S from "./styles";
 
-function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
-  const handleChange = (event) => {
+interface IdentifyNotePromptProps {
+  index: number
+  fret: number
+  stringIndex: number
+  checked: boolean
+  setChecked: (index: number, updatedValue: boolean) => void
+  strings: string[]
+}
+
+function IdentifyNotePrompt({ index, fret, stringIndex, checked, setChecked, strings }:IdentifyNotePromptProps) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setChecked(index, event.target.checked);
   };
 
@@ -36,4 +45,4 @@ function Prompt({ index, fret, stringIndex, checked, setChecked, strings }) {
   );
 }
 
-export default Prompt;
+export default IdentifyNotePrompt;

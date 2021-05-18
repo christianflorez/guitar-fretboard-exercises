@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
-  "main": "src/index.js",
+  "main": "src/index.tsx",
   "dependencies": {
     "@material-ui/core": "4.11.3",
     "@material-ui/icons": "^4.11.2",
@@ -11,19 +11,21 @@
     "@material-ui/pickers": "3.2.10",
     "@material-ui/styles": "4.11.3",
     "@material-ui/utils": "4.11.2",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.3.0",
+    "@types/react": "^17.0.6",
+    "@types/react-dom": "^17.0.5",
     "fontsource-roboto": "4.0.0",
     "lodash": "4.17.20",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-scripts": "^4.0.3",
-    "styled-components": "5.2.1"
+    "styled-components": "5.2.1",
+    "typescript": "^4.2.4"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
-    "@types/node": "^15.3.0",
-    "@types/react": "^17.0.5",
-    "@types/react-dom": "^17.0.5",
-    "typescript": "^4.2.4"
+    "@types/lodash": "^4.14.169",
+    "@types/styled-components": "^5.1.9"
   },
   "scripts": {
     "dev": "yarn start",
@@ -38,5 +40,11 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  }
 }

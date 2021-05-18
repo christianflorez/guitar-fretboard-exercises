@@ -15,7 +15,7 @@ export const allNotes = [
   "G#/Ab",
 ];
 
-export const stringNoteOffsets = {
+export const stringNoteOffsets: Record<string, number> = {
   "Low E": 7,
   A: 0,
   D: 5,
