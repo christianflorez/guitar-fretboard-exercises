@@ -18,14 +18,9 @@ import { IdentifyNotePrompt, IdentifyFretPrompt } from "components/Prompt";
 import Settings from "components/Settings";
 import * as S from "./styles";
 
-interface FretboardExercisesProps {
+export interface FretboardExercisesProps {
   isSettingsOpen: boolean;
   setIsSettingsOpen: (isSettingsOpen: boolean) => void;
-}
-
-interface Prompt {
-  stringIndex: number;
-  fret: number;
 }
 
 export interface FretboardExercisesState {
@@ -34,6 +29,11 @@ export interface FretboardExercisesState {
   maxFret: number;
   omittedFrets: number[];
   stringsToUse: string[];
+}
+
+interface Prompt {
+  stringIndex: number;
+  fret: number;
 }
 
 function getFret(
