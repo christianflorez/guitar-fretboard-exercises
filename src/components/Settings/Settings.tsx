@@ -10,13 +10,13 @@ import Select from "@material-ui/core/Select";
 import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
 import { FretboardExercisesState } from "components/FretboardExercises";
-import * as S from "./styles";
 import {
   defaultNumberOfPrompts,
   defaultMinFret,
   defaultMaxFret,
   strings as allStrings,
 } from "common/constants";
+import * as S from "./styles";
 
 export interface SettingsProps {
   updateSettings: (state: FretboardExercisesState) => void;
@@ -62,9 +62,7 @@ function Settings({ updateSettings, setIsSettingsOpen, state }: SettingsProps) {
     }
   }
 
-  function handleNumPromptsChange(
-    event: React.ChangeEvent<{ value: unknown }>
-  ) {
+  function handleNumPromptsChange(event: React.ChangeEvent<{ value: string }>) {
     const value = Number(event.target.value);
     if (value > currentTotalPossiblePrompts) return;
     setNumberOfPrompts(Number(event.target.value));
@@ -191,7 +189,7 @@ function Settings({ updateSettings, setIsSettingsOpen, state }: SettingsProps) {
                 value={omittedFrets}
                 onChange={handleOmittedFretsChange}
                 input={<Input id="select-multiple-chip" />}
-                renderValue={(selected: unknown) => (
+                renderValue={(selected) => (
                   <div>
                     {(selected as string[]).map((value) => (
                       <Chip key={value} label={value} />

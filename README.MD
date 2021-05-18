@@ -4,4 +4,5 @@ This is a simple utility for practicing guitar note-name identification. It can 
 
 ## Enhancements to make:
 
-- Move to TypeScript
+- Refactor: Split up Settings component
+- Refactor: Split up Fretboard Exercises component
