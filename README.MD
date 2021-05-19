@@ -1,6 +1,8 @@
 # Introduction
 
-This is a simple utility for practicing guitar note-name identification. It can be found deployed here: http://fretboard-exercises.surge.sh/
+This is a simple utility for practicing guitar note-name identification. 
+
+**It can be found deployed at the following URL: http://fretboard-exercises.surge.sh/**
 
 ## Requirements:
 You must have `yarn` and `node` installed on your system before running this project. If you want to deploy, you will also need the `surge` CLI installed locally.
